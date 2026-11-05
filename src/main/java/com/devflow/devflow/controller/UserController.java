@@ -2,6 +2,8 @@ package com.devflow.devflow.controller;
 
 import com.devflow.devflow.model.User;
 import com.devflow.devflow.service.UserService;
+import jakarta.validation.Valid; // <-- 1. Importa esto
+import org.springframework.http.HttpStatus; // <-- Asegúrate de tener este import si usas HttpStatus.CREATED
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,12 +32,13 @@ public class UserController {
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user) { // <-- 2. Añade @Valid aquí
+        User createdUser = userService.createUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User userDetails) {
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @Valid @RequestBody User userDetails) { // <-- También puedes agregarlo aquí opcionalmente
         User updatedUser = userService.updateUser(id, userDetails);
         return ResponseEntity.ok(updatedUser);
     }

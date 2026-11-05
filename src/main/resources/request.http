@@ -1,0 +1,12 @@
+### 1. Intentar crear un usuario con datos inválidos (Debe fallar por validación)
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "username": "",
+  "email": "correo-invalido",
+  "password": "123"
+}
+
+### 2. Buscar un usuario que no existe (Debe devolver el JSON de error 404 del GlobalExceptionHandler)
+GET http://localhost:8080/api/users/999
